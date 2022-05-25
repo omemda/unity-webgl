@@ -1,21 +1,18 @@
-# unity-webgl
+# WebGL projects
 
 ENGLISH:
-
-https://skimmeds.github.io/unity-webgl/eukaryotic-cell
-https://skimmeds.github.io/unity-webgl/prokaryotic-cell
-https://skimmeds.github.io/unity-webgl/bacteria-structures
-https://skimmeds.github.io/unity-webgl/bacteriophages
+[Eukaryotic cell](https://skimmeds.github.io/unity-webgl/eukaryotic-cell)
+[Prokaryotic cell](https://skimmeds.github.io/unity-webgl/prokaryotic-cell)
+[Bacteria morphology](https://skimmeds.github.io/unity-webgl/bacteria-structures)
+[Bacteriophages](https://skimmeds.github.io/unity-webgl/bacteriophages)
 
 
 LITHUANIAN:
-
-https://skimmeds.github.io/unity-webgl/eukariotine-lastele
-https://skimmeds.github.io/unity-webgl/prokariotine-lastele
-https://skimmeds.github.io/unity-webgl/bakteriju-strukturos
-https://skimmeds.github.io/unity-webgl/bakteriofagai
+[Eukariotinė ląstelė](https://skimmeds.github.io/unity-webgl/eukariotine-lastele)
+[Prokariotinė ląstelė](https://skimmeds.github.io/unity-webgl/prokariotine-lastele)
+[Bakterijų morfologija](https://skimmeds.github.io/unity-webgl/bakteriju-strukturos)
+[Bakteriofagai](https://skimmeds.github.io/unity-webgl/bakteriofagai)
 
 
 ALSO:
-
-https://skimmeds.github.io/unity-webgl/DNR
+[DNA and RNA/DNR ir RNR](https://skimmeds.github.io/unity-webgl/DNR)

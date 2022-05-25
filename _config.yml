@@ -3,3 +3,5 @@ theme: jekyll-theme-minimal
 title: 3D modeling in a bioinformatics website
 description: A collection of Unity WebGL projects published for embedding
 
+markdown: kramdown
+

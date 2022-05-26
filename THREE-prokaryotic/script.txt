@@ -1,93 +1,100 @@
-<style type="text/css">canvas {
-  width: 100%;
-}
-#container {
-  width: 100%;
-  height: 1000px;
-}
+<style type="text/css">
+  canvas {
+    width: 100%;
+  }
+  #container {
+    width: 100%;
+    height: 1000px;
+  }
 </style>
-<p>Bakterijos (Bacteria) – prokariotai, bakterijų (Bacteria) domeno organizmų karalystė. Paprastai būna kelių mikrometrų ilgio, forma – įvairi: rutulinė, lazdelinė ar spiralinė. Bakterijos yra viena iš pirmųjų gyvybės formų, kuri atsirado Žemėje, ir sutinkama beveik visose buveinėse – dirvožemyje, vandenyje, karštosiose versmėse, radioaktyviosiose atliekose&nbsp;ir Žemės plutos gilumose. Bakterijos taip pat gyvena simbiozėje ir parazituoja augaluose bei gyvūnuose. Dauguma bakterijų dar nėra aprašytos ir tik maždaug apie pusę bakterijų rūšių gali būti kultūriniu būdu auginamos laboratorijose.&nbsp;Bakterijas tiria mikrobiologijos šaka bakteriologija.</p>
 
+<p>Straipsnio tekstas.</p>
 <div id="container">&nbsp;</div>
-<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script><script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script><script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script><script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script><script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script><script>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/environments/RoomEnvironment.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/RGBELoader.js"></script>
+
+<script>
   let camera, scene, renderer;
 
   init();
   render();
 
   function init() {
+    const container = document.getElementById("container");
+    const h = document.getElementById("container").clientHeight;
+    const w = document.getElementById("container").clientWidth;
 
-	const container = document.getElementById('container');
-    const h = document.getElementById('container').clientHeight;
-    const w = document.getElementById('container').clientWidth;
+    camera = new THREE.PerspectiveCamera(45, w / h, 0.25, 20);
+    camera.position.set(-1.8, 0.6, 6);
 
-	camera = new THREE.PerspectiveCamera(45, w / h, 0.25, 20);
-	camera.position.set(-1.8, 0.6, 6);
+    scene = new THREE.Scene();
+    new THREE.RGBELoader()
+      .setDataType(THREE.UnsignedByteType)
+      .load(
+        "https://gist.githubusercontent.com/skimmeds/1b6b5d88291e7fad285c62395c3a6b83/raw/e009046187d1d729100414d4bbe77708f7f9d6bc/royal_esplanade_1k.hdr",
+        function (texture) {
+          const envMap = pmremGenerator.fromScene(
+            new THREE.RoomEnvironment(),
+            0.04
+          ).texture;
 
-	scene = new THREE.Scene();
-	new THREE.RGBELoader()
-	  .setDataType(THREE.UnsignedByteType)
-	  .load('https://gist.githubusercontent.com/skimmeds/1b6b5d88291e7fad285c62395c3a6b83/raw/e009046187d1d729100414d4bbe77708f7f9d6bc/royal_esplanade_1k.hdr', function(texture) {
+          scene.background = envMap;
+          scene.environment = envMap;
+          //scene.background = new THREE.Color( 0xbfe3dd );
+          //scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture;
 
-		const envMap = pmremGenerator.fromScene(new THREE.RoomEnvironment(), 0.04).texture;
+          //texture.dispose();
+          pmremGenerator.dispose();
+          render();
 
-		scene.background = envMap;
-		scene.environment = envMap;
-		//scene.background = new THREE.Color( 0xbfe3dd );
-		//scene.environment = pmremGenerator.fromScene( new RoomEnvironment(), 0.04 ).texture;
+          // model
+          const loader = new THREE.GLTFLoader().setPath("");
+          loader.load(
+            "https://gist.githubusercontent.com/skimmeds/1b6b5d88291e7fad285c62395c3a6b83/raw/e009046187d1d729100414d4bbe77708f7f9d6bc/eucaryotic_cell.glb",
+            function (gltf) {
+              scene.add(gltf.scene);
+              render();
+            }
+          );
+        }
+      );
 
-		//texture.dispose();
-		pmremGenerator.dispose();
-		render();
+    renderer = new THREE.WebGLRenderer({
+      antialias: true,
+    });
+    renderer.setPixelRatio(window.devicePixelRatio);
+    renderer.setSize(w, h);
+    renderer.toneMapping = THREE.ACESFilmicToneMapping;
+    renderer.toneMappingExposure = 1;
+    renderer.outputEncoding = THREE.sRGBEncoding;
+    container.appendChild(renderer.domElement);
 
-		// model
-		const loader = new THREE.GLTFLoader().setPath('');
-		loader.load('https://gist.githubusercontent.com/skimmeds/1b6b5d88291e7fad285c62395c3a6b83/raw/e009046187d1d729100414d4bbe77708f7f9d6bc/eucaryotic_cell.glb', function(gltf) {
+    const pmremGenerator = new THREE.PMREMGenerator(renderer);
+    pmremGenerator.compileEquirectangularShader();
 
-		  scene.add(gltf.scene);
-		  render();
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.addEventListener("change", render); // use if there is no animation loop
+    controls.minDistance = 2;
+    controls.maxDistance = 10;
+    controls.target.set(0, 0, -0.2);
+    controls.update();
 
-		});
-
-	  });
-
-	renderer = new THREE.WebGLRenderer({
-	  antialias: true
-	});
-	renderer.setPixelRatio(window.devicePixelRatio);
-	renderer.setSize( w, h );
-	renderer.toneMapping = THREE.ACESFilmicToneMapping;
-	renderer.toneMappingExposure = 1;
-	renderer.outputEncoding = THREE.sRGBEncoding;
-	container.appendChild(renderer.domElement);
-
-	const pmremGenerator = new THREE.PMREMGenerator(renderer);
-	pmremGenerator.compileEquirectangularShader();
-
-	const controls = new THREE.OrbitControls(camera, renderer.domElement);
-	controls.addEventListener('change', render); // use if there is no animation loop
-	controls.minDistance = 2;
-	controls.maxDistance = 10;
-	controls.target.set(0, 0, -0.2);
-	controls.update();
-
-	window.addEventListener('resize', onWindowResize);
-
+    window.addEventListener("resize", onWindowResize);
   }
 
-
   function onWindowResize() {
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
 
-	camera.aspect = w / h;
-	camera.updateProjectionMatrix();
-
-	renderer.setSize( w, h );
-	render();
-
+    renderer.setSize(w, h);
+    render();
   }
 
   function render() {
-	renderer.render(scene, camera);
+    renderer.render(scene, camera);
   }
-
 </script>

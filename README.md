@@ -14,5 +14,9 @@ LITHUANIAN:
 [Bakteriofagai](https://skimmeds.github.io/unity-webgl/bakteriofagai)
 
 
-ALSO:
+ENGLISH/LITHUANIAN:
 [DNA and RNA/DNR ir RNR](https://skimmeds.github.io/unity-webgl/DNR)
+
+Other project:
+[Prokaryotic cell](https://skimmeds.github.io/unity-webgl/THREE-prokaryotic/index.html), 
+[Prokaryotic cell localization attempt](https://skimmeds.github.io/unity-webgl/prokaryote-localization)

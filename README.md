@@ -17,6 +17,6 @@ LITHUANIAN:
 ENGLISH/LITHUANIAN:
 [DNA and RNA/DNR ir RNR](https://skimmeds.github.io/unity-webgl/DNR)
 
-Other project:
+Other projects:
 [Three.js attempt](https://skimmeds.github.io/unity-webgl/THREE-prokaryotic/index.html), 
 [Unity Localization attempt](https://skimmeds.github.io/unity-webgl/prokaryote-localization)
